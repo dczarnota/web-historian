@@ -24,18 +24,15 @@ exports.serveAssets = function(res, asset, callback) {
   // else{
   //   this.headers.Context-Type = "text/html"
   // }
+  // archive.readListOfUrls(asset, callback);
 
   fs.readFile(asset, function(err, data){
     if(err){
       throw err;
     }
-    // console.log("this is the data: "+data)
     res.writeHead(statusCode, this.headers);
     res.end(data);
   });
 
 };
-
-
-
 // As you progress, keep thinking about what helper functions you can put here!

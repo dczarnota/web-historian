@@ -6,37 +6,54 @@ var httphelpers = require("./http-helpers");
 
 exports.handleRequest = function (req, res) {
   var url = req.url;
+
   if(req.method === "GET"){
     statusCode = 200;
+    if(archive.paths[url]){
+      var idx = archive.paths[url].toString();
+      httphelpers.serveAssets(res, idx);
+    }
+    else if(url === "/www.google.com") {
+      var idx = archive.paths.archivedSites + req.url;
+      httphelpers.serveAssets(res, idx);
+    }
   }
+  // archive.isURLArchived(url,function(arr){
+  //   var url = req.url.slice(1);
+  //   for(var i = 0; i<arr.length; i++){
+  //     if(arr[i] === url){
+  //       httphelpers.serveAssets(res, url);
+  //       return true;
+  //     }
+  //   }
+  // })
+  else if(req.method === "POST") {
+    var body = '';
+    var url;
+    req.on('data', function(data){
+      console.log("data: " + data);
+      body += data;
+    });
 
-  if(archive.paths[url]){
-    var idx = archive.paths[url].toString();
-    httphelpers.serveAssets(res, idx);
-  }
-  else{
+    req.on('end',function(){
+      url = body.slice(4);
+      console.log("this is the url: " +url);
+      return url;
+    });
    archive.readListOfUrls(url, function(listData){
-    var url = req.url.slice(1);
-    // console.log("URL: "+url)
-    // console.log(listData)
-
       for(var i = 0; i < listData.length; i++){
-        console.log("listData: "+listData);
         if(listData[i] === url){
-          console.log("URL in for loop: "+url);
-          httphelpers.serveAssets(res, listData[i]);
-          return true;
-
-         //if url is in sites.txt
+          httphelpers.serveAssets(res, url);
         }
       }
-      //add url to list
-
-     //if url is not in sites.txt
+      archive.addUrlToList(url);
+      statusCode = 302;
     });
+  } else {
+    archive.isUrlInList(url);
+    statusCode = 404;
   }
-
-
+  // statusCode = statusCode || 404;
 };
 /*else if(url){
   if(archive.isURLArchived(url)){

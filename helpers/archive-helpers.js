@@ -1,7 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
-var exports = module.exports = {}
+var exports = module.exports = {};
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
  * Consider using the `paths` object below to store frequently used file paths. This way,
@@ -12,7 +12,7 @@ var exports = module.exports = {}
 exports.paths = {
   'siteAssets' : path.join(__dirname, '../web/public'),
   'archivedSites' : path.join(__dirname, '../archives/sites'),
-  'list' : path.join(__dirname, '../archives/sites.txt'),
+  'lists' : path.join(__dirname, '../archives/sites.txt'),
    '/': path.join(__dirname, '../web/public/index.html')
 };
 
@@ -28,32 +28,36 @@ exports.initialize = function(pathsObj){
 
 exports.readListOfUrls = function(url, callback){
 //htmlfetcher uses this to read the URL
-  path = archive.paths.archivedSites
-  path+asset
-  var listPath = this.paths['list'];
-  // console.log(listPath)
-  console.log("this is the listPath: " +listPath)
+  // path = this.paths.archivedSites
+  var listPath = this.paths.lists;
   fs.readFile(listPath, "utf-8", function(err, rawData){
     if(err){
       throw err;
     }
     var arr = rawData.split('\n');
-    // arr.push(data);
-    // console.log("arr: "+arr);
-    // console.log("isArray? "+ Array.isArray(arr));
-    callback(arr);
+    arr.forEach(function(item){
+      callback(item);
+    });
   });
 };
 
-exports.isUrlInList = function(){
+exports.isUrlInList = function(url){
   //call readlistofurls
   //does the list contain my url
-  //_.contains(list, url)
+
+  // _.contains(this.isUrlInList, url);
 };
 
 exports.addUrlToList = function(url, callback){
   //web app adds to sites.txt
-// };
+  var archivePath = this.paths.lists;
+  var url = url + "\n";
+  fs.appendFile(archivePath, url, function(err, data){
+    console.log("path: "+archivePath);
+    if(err){throw err;}
+    console.log("addUrltoList url: "+url);
+    // callback(data);
+  });
 // var check = function(){
 //   fs.readdir(this.paths.archivedSites, function(err, files){
 //     console.log(files);
@@ -61,7 +65,15 @@ exports.addUrlToList = function(url, callback){
 };
 
 exports.isURLArchived = function(url,callback){
-  callback(url);
+  var archivePath =  this.paths.archivedSites;
+  fs.readdir(archivePath, function(err, arrFiles){
+    if(err){
+      throw err;
+    }
+    callback(arrFiles);
+        // var arr = rawData.split('\n');
+    // callback(arr)
+  });
 };
 
 
