@@ -13,13 +13,27 @@ exports.headers = headers = {
 exports.serveAssets = function(res, asset, callback) {
   // Write some code here that helps serve up your static files!
   // (Static files are things like html (yours or archived from others...), css, or anything that doesn't change often.)
-  // console.log(archive.paths(['/']));
-  // fs.readFile("/public/index.html", function(err, data){
-  //   if(err){
-  //     throw err
-  //   }
-  //  console.log(data);
-  // });
+
+  var extName = path.extname(asset);
+  // if(extName === ".js"){
+  //   this.headers.Context-Type = "text/js";
+  // }
+  // else if(extName === ".css"){
+  //   this.headers.Context-Type = "text/css";
+  // }
+  // else{
+  //   this.headers.Context-Type = "text/html"
+  // }
+
+  fs.readFile(asset, function(err, data){
+    if(err){
+      throw err;
+    }
+    // console.log("this is the data: "+data)
+    res.writeHead(statusCode, this.headers);
+    res.end(data);
+  });
+
 };
 
 
