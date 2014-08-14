@@ -12,7 +12,8 @@ var _ = require('underscore');
 exports.paths = {
   'siteAssets' : path.join(__dirname, '../web/public'),
   'archivedSites' : path.join(__dirname, '../archives/sites'),
-  'list' : path.join(__dirname, '../archives/sites.txt')
+  'list' : path.join(__dirname, '../archives/sites.txt'),
+   '/': path.join(__dirname, '../web/public/index.html')
 };
 
 // Used for stubbing paths for jasmine tests, do not modify
@@ -26,16 +27,19 @@ exports.initialize = function(pathsObj){
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(){
+//htmlfetcher uses this to read the URL
 };
 
 exports.isUrlInList = function(){
 };
 
 exports.addUrlToList = function(){
+  //web app adds to sites.txt
 };
 
 exports.isURLArchived = function(){
 };
 
 exports.downloadUrls = function(){
+
 };
