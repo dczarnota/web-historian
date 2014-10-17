@@ -1,0 +1,30 @@
+
+var fs = require('fs');
+var readline = require('readline');
+var stream = require('stream');
+var list = [];
+var instream = fs.createReadStream(archive.paths.list);
+var outstream = new stream;
+var rl = readline.createInterface(instream, outstream);
+
+rl.on('line', function(line) {
+  list.push(line);
+});
+
+rl.on('close', function() {
+  // do something on finish here
+  callback(list)
+});
+
+requesthandler
+//if pathname is /
+  //serveIndex (request, response, url, callback)
+//archive.isURLinlist(url, function(isitinlist){
+  if(isitinlist){
+    archive.isUrlArchived(url, function(isarchived){
+      ar
+    })
+  }
+})
+else
+  if(send a 404)
